@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | DataTables</title>
+
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+    <link rel="stylesheet" th:href="@{/prototipo/plugins/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/prototipo/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/prototipo/responsive.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/prototipo/buttons.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/prototipo/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+
+<!-- Main content -->
+<section class="content" style="margin: 10px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title col-sm-8">Todos os items do cardápio</h3>
+                        <form th:action="@{/restaurante/items/list/desativados}" method="GET" >
+                            <button  type="submit" class="btn btn-block btn-danger col-sm-4">Items Desativados</button>
+                        </form>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <button style="margin-top: 5px; margin-bottom: 10px;margin-left: auto; margin-right: auto; width: 160px;" onclick="atualizar()" type="button" class="btn btn-block btn-primary">Atualizar Tabela <i style="margin-left: 6px" class="fas fa-sync-alt"></i></button>
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Opções</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${itemsCardapio}">
+                                <td th:text="${item.getNome()}"></td>
+                                <td th:text="${item.getCategoria()}"></td>
+                                <td th:text="${item.getDescricao()}"></td>
+                                <td th:text="${'R$ ' + item.getPreco()}"></td>
+                                <td style="text-align: center">
+                                    <a th:href="@{/restaurante/itemcardapio/edit?id=} + ${item.getId()}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a style="margin-left: 5px" th:href="@{/restaurante/itemcardapio/desativar?id=} + ${item.getId()}">
+                                        <i onclick="" class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<script th:src="@{/prototipo/jquery.min.js}"></script>
+
+<script th:src="@{/prototipo/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/prototipo/jquery.dataTables.min.js}"></script>
+<script th:src="@{/prototipo/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/prototipo/dataTables.responsive.min.js}"></script>
+<script th:src="@{/prototipo/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/prototipo/dataTables.buttons.min.js}"></script>
+<script th:src="@{/prototipo/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/prototipo/jszip.min.js}"></script>
+<script th:src="@{/prototipo/pdfmake.min.js}"></script>
+<script th:src="@{/prototipo/vfs_fonts.js}"></script>
+<script th:src="@{/prototipo/buttons.html5.min.js}"></script>
+<script th:src="@{/prototipo/buttons.print.min.js}"></script>
+<script th:src="@{/prototipo/buttons.colVis.min.js}"></script>
+<script th:src="@{/prototipo/adminlte.min.js}"></script>
+<script th:src="@{/prototipo/demo.js}"></script>
+
+<script>
+    function atualizar(){
+        location.reload();
+    }
+
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["excel", "pdf", "print"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>
+</body>
+</html>

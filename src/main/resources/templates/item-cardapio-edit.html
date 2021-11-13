@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+        lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAVAFOOD</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/prototipo/plugins/fontawesome-free/css/all.min.css}">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/prototipo/adminlte.min.css}" >
+  <!-- Toastr -->
+  <link rel="stylesheet" th:href="@{/prototipo/toastr.min.css}" >
+
+</head>
+
+<body>
+
+
+  <section class="content-header">
+    <div class="container-fluid">
+    
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <form id="formItem" th:action="@{/restaurante/item/edit}" method="POST" th:object="${itemCardapio}" enctype="multipart/form-data">
+
+    <input style="display: none" th:value="${itemCardapio.getId()}" th:field="*{id}" type="text" id="id" name="id">
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+
+        <!-- right column -->
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Adicionar Item</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Nome:</label>
+                    <input th:value="${itemCardapio.getNome()}" th:field="*{nome}"  type="text" id="nome" name="nome" class="form-control" placeholder="Nome...">
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="form-group">
+
+                    <label>Categoria:</label>
+                    <input th:value="${itemCardapio.getCategoria()}" th:field="*{categoria}"  type="text" id="categoria" name="categoria" class="form-control" placeholder="Categoria...">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Descrição:</label>
+                    <input th:value="${itemCardapio.getDescricao()}" th:field="*{descricao}"  type="text" id="descricao" name="descricao" class="form-control" placeholder="Descrição...">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Preço:</label>
+                    <input th:value="${itemCardapio.getPreco()}" th:field="*{preco}"  type="text" id="preco" name="preco"  class="form-control" placeholder="Preço...">
+                  </div>
+                </div>
+
+                <div class="col-3">
+                  <div class="form-group">
+                    <center>
+                     <img  style="max-height: 100px !important; " th:src="@{/image/comida/} + ${itemCardapio.getLogotipo()}" alt="" class="img-fluid"/>
+                    </center>
+                  </div>
+                </div>
+
+                <div class="col-9">
+                  <div class="form-group">
+                    <label for="logotipo">Imagem:</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input th:value="${itemCardapio.getLogotipoFile()}" th:field="*{logotipoFile}"  type="file" id="logotipo" name="logotipo" class="custom-file-input">
+                        <label class="custom-file-label" for="logotipo">Trocar imagem</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!--/.col (right) -->
+
+       
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+  <div style="text-align: center;">
+    <button style="max-width: 200px;" type="button" onclick="submitForm()" class="btn-lg btn-danger">Editar</button>
+  </div>
+
+  </form>
+
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script th:src="@{/prototipo/bootstrap.bundle.min.js}" ></script>
+  <!-- bs-custom-file-input -->
+  <script th:src="@{/prototipo/bs-custom-file-input.min.js}"></script>
+  <!-- AdminLTE App -->
+  <script th:src="@{/prototipo/adminlte.min.js}"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script th:src="@{/prototipo/demo.js}"></script>
+  <!-- Page specific script -->
+
+  <!-- Toastr -->
+  <script th:src="@{/prototipo/toastr.min.js}"></script>
+
+<script>
+
+  function submitForm() {
+    var nome = document.getElementById("nome").value
+    var categoria = document.getElementById("categoria").value
+    var descricao = document.getElementById("descricao").value
+    var preco = document.getElementById("preco").value
+    var logotipo = document.getElementById("logotipo").value
+
+    if (nome == '') {
+
+      toastr.error('O nome do item não pode ser vazio')
+
+    } else if (categoria == ''){
+
+      toastr.error('A categoria não pode ser vazia')
+
+    } else if(descricao == ''){
+
+      toastr.error('A descrição não pode ser vazia')
+
+    } else if ( preco == ''){
+
+      toastr.error('O preço não pode ser vazio')
+
+    } else{
+      document.getElementById("formItem").submit();
+    }
+
+
+  }
+
+</script>
+
+
+</body>
+
+</html>

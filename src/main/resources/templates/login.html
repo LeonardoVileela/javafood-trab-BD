@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+        lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAVAFOOD</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/loginPlugins/all.min.css}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" th:href="@{/loginPlugins/icheck-bootstrap.min.css}">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/loginPlugins/adminlte.min.css}">
+
+  <link rel="manifest" th:href="@{/images/manifest.json}">
+
+  <style>
+    .add-button {
+      position: center;
+      top: 1px;
+      left: 1px;
+    }
+  </style>
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a><b>JAVA</b>FOOD</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Faça login para iniciar sua sessão</p>
+
+      <form th:action="@{/login}" method="POST">
+        <div class="input-group mb-3">
+          <input type="email" name="username" class="form-control" placeholder="Email...">
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Senha...">
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <div class="social-auth-links text-center mb-3">
+        <p>- OU -</p>
+        <a th:href="@{/public/cliente/new}" class="btn btn-block btn-primary">
+          Cadastrar como CLIENTE
+        </a>
+        <a th:href="@{/public/restaurante/new}" class="btn btn-block btn-danger">
+          Cadastrar como RESTAURANTE
+        </a>
+      </div>
+      <!-- /.social-auth-links -->
+
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+
+<script>
+  var path = this.pathname || window.location.pathname;
+  var part = path.split('/').pop();
+
+  if(part == 'login-error'){
+    alert('E-mail ou senha incorreto')
+  }
+
+</script>
+
+<!-- jQuery -->
+<script th:src="@{/loginPlugins/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/loginPlugins/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/loginPlugins/adminlte.min.js}"></script>
+</body>
+</html>

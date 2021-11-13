@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+        lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JAVAFOOD</title>
+
+    <link rel="stylesheet" th:href="@{/carrinho/style.css}" media="screen" title="no title" charset="utf-8">
+    <script src="https://code.jquery.com/jquery-2.2.4.js" charset="utf-8"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <meta name="robots" content="noindex,follow" />
+
+
+    <style>
+      #add-button-center {
+        width: 300px;
+        padding-bottom: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+  <center>
+    <button th:onclick="${continuarComprando == null} ? 'location.href=\'' + @{/cliente/home} + '\';' : 'location.href=\'' + @{/cliente/restaurante} + '?restautenteId=' + ${continuarComprando} + '\';' " id="add-button-center" class="btn btn-outline-primary" type="submit">CONTINUAR COMPRANDO</button>
+  </center>
+    <div class="shopping-cart">
+      <!-- Title -->
+      <div class="title">
+        <span th:text="'Total: R$ ' + ${totalCarrinho}"></span>
+        <button id="finalizar" th:onclick="'location.href=\'' + @{/cliente/pagamentoCard} + '\';'" style="width: 200px; padding-bottom: 30px; margin-left: 5px;" class="btn btn-outline-danger" type="submit">FINALIZAR COMPRA</button>
+      </div>
+
+      <!-- Product #1 -->
+      <div th:each="instance : ${itemsCarrinho}">
+        <div class="item" >
+          <div class="buttons">
+            <span th:onclick="'location.href=\'' + @{/cliente/carrinho/remove?itemCarrinhoId=} + ${instance.key.getId()} + '\';'" class="delete-btn"></span>
+            <span class="like-btn"></span>
+          </div>
+
+          <div class="image">
+            <img style="width: 120px" th:src="@{/image/comida/} + ${instance.key.logotipo}" alt="" />
+          </div>
+
+          <div class="description">
+            <span id="getNome" th:text="${instance.key.getNome()}"></span>
+            <span th:text="${instance.key.getCategoria()}"></span>
+            <span th:text="${instance.key.getDescricao()}"></span>
+          </div>
+
+          <div class="quantity">
+            <button class="plus-btn" type="button" name="button">
+              <img th:src="@{/carrinho/plus.svg}" alt="" />
+            </button>
+            <span th:text="${instance.value}"></span>
+            <input hidden type="text" name="name" th:value="${instance.key.getId()}">
+            <button class="minus-btn" type="button" name="button">
+              <img th:src="@{/carrinho/minus.svg}" alt="" />
+            </button>
+          </div>
+
+          <div th:text="${instance.value * instance.key.getPreco()}" class="total-price">$549</div>
+        </div>
+      </div>
+    </div>
+
+
+    <script type="text/javascript">
+
+
+
+      if(document.getElementById("getNome") == null){
+        document.getElementById("finalizar").disabled = true;
+      }
+
+
+      $('.minus-btn').on('click', function(e) {
+    		e.preventDefault();
+    		var $this = $(this);
+    		var $input = $this.closest('div').find('input');
+    		var value = parseInt($input.val());
+
+        window.location.replace('http://' + window.location.host + '/cliente/carrinho?quant=minus&itemCarrinhoId=' + value);
+
+
+      });
+
+    	$('.plus-btn').on('click', function(e) {
+    		e.preventDefault();
+
+    		var $this = $(this);
+    		var $input = $this.closest('div').find('input');
+    		var value = parseInt($input.val());
+
+          const urlSearchParams = new URLSearchParams(window.location.search);
+          const params = Object.fromEntries(urlSearchParams.entries());
+
+          if(params.restauranteId != undefined){
+            window.location.replace('http://' + window.location.host + '/cliente/carrinho?quant=plus&itemCarrinhoId=' + value + '&restauranteId=' + params.restauranteId);
+          }else {
+            window.location.replace('http://' + window.location.host + '/cliente/carrinho?quant=plus&itemCarrinhoId=' + value);
+          }
+
+
+    	});
+
+      $('.like-btn').on('click', function() {
+        $(this).toggleClass('is-active');
+      });
+    </script>
+  </body>
+</html>

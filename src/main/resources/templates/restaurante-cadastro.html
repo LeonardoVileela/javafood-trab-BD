@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+		lang="pt-br">
+
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bf_estiloSistema.css}">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>-->
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.60/inputmask/jquery.inputmask.js"></script>
+
+	<script>
+		function goBack() {
+			window.history.back();
+		}
+	</script>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JAVAFOOD</title>
+</head>
+
+<body>
+		<div>
+			<h1>Cadastro de Restaurante</h1>
+
+			<div id="sucesso">
+
+			</div>
+
+
+
+			<form th:action="${editMode} ? @{/restaurante/save} : @{/public/restaurante/save}" method="POST" th:object="${restaurante}" enctype="multipart/form-data">
+				<fieldset>
+
+					<input type="hidden" id="id" name="id" th:field="*{id}">
+
+					<label for="nome">Nome do Restaurante: </label><br>
+					<input th:classappend="${#fields.hasErrors('nome')} ? 'inputError' : ''" th:field="*{nome}"  type="text" id="nome" name="nome" placeholder="Nome..."><br><br>
+
+					<div th:if="${#fields.hasErrors('nome')}" class="mensagemDeErro">
+						<span class="spanError"></span>
+						<span th:errors="*{nome}" class="textError"></span>
+					</div>
+					<br th:if="${#fields.hasErrors('nome')}">
+
+					<label for="cnpj">CNPJ: </label><br>
+					<input inputmode="numeric" class="cnpj" th:classappend="${#fields.hasErrors('cnpj')} ? 'inputError' : ''" th:field="*{cnpj}"  type="text" id="cnpj" name="cnpj" placeholder="CNPJ..."><br><br>
+
+					<div th:if="${#fields.hasErrors('cnpj')}" class="mensagemDeErro">
+						<span class="spanError"></span>
+						<span th:errors="*{cnpj}" class="textError"></span>
+					</div>
+					<br th:if="${#fields.hasErrors('cnpj')}">
+
+					<label for="email">E-mail: </label><br>
+					<input th:classappend="${#fields.hasErrors('email')} ? 'inputError' : ''" th:field="*{email}"  type="text" id="email" name="email" placeholder="E-mail..."><br><br>
+
+					<div th:if="${#fields.hasErrors('email')}" class="mensagemDeErro">
+						<span class="spanError"></span>
+						<span th:errors="*{email}" class="textError"></span>
+					</div>
+					<br th:if="${#fields.hasErrors('email')}">
+
+					<label for="telefone">Telefone: </label><br>
+					<input inputmode="numeric" th:classappend="${#fields.hasErrors('telefone')} ? 'inputError' : ''" th:field="*{telefone}"  type="text" id="telefone" name="telefone" placeholder="Telefone..."><br><br>
+
+					<div th:if="${#fields.hasErrors('telefone')}" class="mensagemDeErro">
+						<span class="spanError"></span>
+						<span th:errors="*{telefone}" class="textError"></span>
+					</div>
+					<br th:if="${#fields.hasErrors('telefone')}">
+
+					<label for="taxaEntrega">Taxa de entrega: </label><br>
+					<input inputmode="numeric" type="text" id="taxaEntrega" name="taxaEntrega" placeholder="Taxa de Entrega..." th:field="*{taxaEntrega}" th:classappend="${#fields.hasErrors('taxaEntrega')} ? 'inputError' : ''" /><br>
+
+					<div th:if="${#fields.hasErrors('taxaEntrega')}" class="mensagemDeErro">
+						<span class="spanError"></span>
+						<span th:errors="*{taxaEntrega}" class="textError"></span>
+					</div>
+					<br th:if="${#fields.hasErrors('taxaEntrega')}">
+
+					<label for="tempoEntregaBase">Tempo de entrega (mín.): </label><br />
+					<input inputmode="numeric" type="text" id="tempoEntregaBase" name="tempoEntregaBase" placeholder="Tempo de Entrega..." th:field="*{tempoEntregaBase}" th:classappend="${#fields.hasErrors('tempoEntregaBase')} ? 'inputError' : ''" /><br>
+
+					<div th:if="${#fields.hasErrors('tempoEntregaBase')}" class="mensagemDeErro">
+						<span class="spanError"></span>
+						<span th:errors="*{tempoEntregaBase}" class="textError"></span>
+					</div>
+					<br th:if="${#fields.hasErrors('tempoEntregaBase')}">
+
+
+					<label for="categoria">Categoria de comida: </label><br>
+					<select th:classappend="${#fields.hasErrors('categorias')} ? 'inputError' : ''" multiple="multiple" th:field="*{categorias}"  name="categoria" id="categoria" style="height: 100px">
+						<option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>
+					</select><br><br>
+
+					<div th:if="${#fields.hasErrors('categorias')}" class="mensagemDeErro">
+						<span class="spanError"></span>
+						<span th:errors="*{categorias}" class="textError"></span>
+					</div>
+					<br th:if="${#fields.hasErrors('categorias')}">
+
+					<label for="logotipo">Logotipo: </label><br>
+					<input th:classappend="${#fields.hasErrors('logotipo')} ? 'inputError' : ''" th:field="*{logotipoFile}"  type="file" id="logotipo" name="logotipo" placeholder="Selecionar..."><br><br>
+
+					<div th:if="${#fields.hasErrors('logotipoFile')}" class="mensagemDeErro">
+						<span class="spanError"></span>
+						<span th:errors="*{logotipoFile}" class="textError"></span>
+					</div>
+					<br th:if="${#fields.hasErrors('logotipoFile')}">
+
+					<label for="senha">Senha: </label><br>
+					<input th:classappend="${#fields.hasErrors('senha')} ? 'inputError' : ''" th:field="*{senha}" type="password" id="senha" name="senha" placeholder="Senha..."><br><br>
+
+					<div th:if="${#fields.hasErrors('senha')}" class="mensagemDeErro">
+						<span class="spanError"></span>
+						<span th:errors="*{senha}" class="textError"></span>
+					</div>
+					<br th:if="${#fields.hasErrors('senha')}">
+
+					<input type="hidden" name="senha" value="#" th:if="${editMode}">
+
+					<input type="submit" th:value="${editMode} ? 'Alterar' : 'Cadastrar'">
+				</fieldset>
+			</form>
+			<br>
+			<!-- é usado \' para poder gerar uma aspa na string já que a sintax usa aspa-->
+			<input type="button" value="Voltar" th:onclick="'location.href=\'' + @{/} + '\';'">
+
+		</div>
+
+
+
+
+		<script>
+
+			$("#cnpj").inputmask("99.999.999/9999-99");
+
+			$('#telefone').inputmask('99999999999');
+
+
+
+
+
+			const urlSearchParams = new URLSearchParams(window.location.search);
+			const params = Object.fromEntries(urlSearchParams.entries());
+
+
+			var isTrueSet = (params.cadastroRestaurante === 'true');
+
+			if(isTrueSet){
+				document.getElementById('sucesso').insertAdjacentHTML(
+						'afterbegin',
+						`<div class="mensagemDeSucesso"">
+\t\t\t\t<span class="spanSucesso"></span>
+\t\t\t\t<span class="textSucesso">Restaurante gravado com sucesso</span>
+\t\t\t</div><br>`
+
+
+				)
+
+			}
+
+		</script>
+
+
+
+</body>
+
+</html>
